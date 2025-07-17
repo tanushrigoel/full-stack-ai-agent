@@ -72,12 +72,15 @@ export const onTicketCreate = inngest.createFunction(
           await sendMail(
             moderator.email,
             "Ticket assigned",
-            `Hi, a ticket have been assigned to you ${ticketId}`
+            `Hi, a ticket have been assigned to you ${ticket.title}`
           );
         }
       });
+
+      return { success: true };
     } catch (error) {
-      return;
+      console.error("❌ Error running the step", error.message);
+      return { success: false };
     }
   }
 );
