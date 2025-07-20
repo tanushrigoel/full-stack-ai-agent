@@ -11,14 +11,14 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const app = express();
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use(
   "/api/inngest",
   serve({ client: inngest, functions: [onUserSignup, onTicketCreate] })
 );
-app.use(cors);
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
 // console.log(process.env.MONGODB_URL);
 app.use("/api/auth", userRoutes);
@@ -35,3 +35,8 @@ mongoose
   .catch((err) => {
     console.error("MongoDB error: ", err);
   });
+app.post("/", (req, res) => {
+  console.log("received the request");
+  res.send("Request received successfully!");
+});
+

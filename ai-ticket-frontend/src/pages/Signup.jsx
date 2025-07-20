@@ -1,13 +1,16 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function Signup() {
+export default function Signup() {
+  const [form, setForm] = useState({ email: "", password: "" });
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { form, setForm } = useState({ email: "", password: "" });
-  const { loading, setLoading } = useState(false);
+
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
+  // console.log(import.meta.env.VITE_SERVER_URL);
+  
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -23,7 +26,9 @@ function Signup() {
           body: JSON.stringify(form),
         }
       );
+
       const data = await res.json();
+
       if (res.ok) {
         localStorage.setItem("token", data.token);
         localStorage.setItem("user", JSON.stringify(data.user));
@@ -31,14 +36,51 @@ function Signup() {
       } else {
         alert(data.message || "Signup failed");
       }
-    } catch (error) {
-      console.log("Error while signing up");
+    } catch (err) {
+      alert("Something went wrong");
+      console.error(err);
     } finally {
       setLoading(false);
     }
   };
 
-  return <div>Signup</div>;
-}
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-base-200">
+      <div className="card w-full max-w-sm shadow-xl bg-base-100">
+        <form onSubmit={handleSignup} className="card-body">
+          <h2 className="card-title justify-center">Sign Up</h2>
 
-export default Signup;
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            className="input input-bordered"
+            value={form.email}
+            onChange={handleChange}
+            required
+          />
+
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            className="input input-bordered"
+            value={form.password}
+            onChange={handleChange}
+            required
+          />
+
+          <div className="form-control mt-4">
+            <button
+              type="submit"
+              className="btn btn-primary w-full"
+              disabled={loading}
+            >
+              {loading ? "Signing up..." : "Sign Up"}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}

@@ -2,10 +2,10 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import CheckAuth from "./components/checkAuth";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Tickets from "./pages/tickets";
-import TicketDetailsPage from "./pages/ticket";
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
+import Tickets from "./pages/Tickets";
+import TicketDetailsPage from "./pages/Ticket";
+import Login from "./pages/login";
+import Signup from "./pages/signup";
 import Admin from "./pages/Admin";
 
 createRoot(document.getElementById("root")).render(

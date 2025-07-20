@@ -22,7 +22,7 @@ export const sendMail = async (to, subject, text) => {
     console.log("Message sent:", info.messageId);
     return info;
   } catch (error) {
-    console.error("❌ Error while sending email: ", err.message);
+    console.error("❌ Error while sending email: ", error.message);
     throw error;
   }
 };
