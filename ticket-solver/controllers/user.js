@@ -33,11 +33,11 @@ export const signup = async (req, res) => {
 export const login = async (req, res) => {
   const { email, password } = req.body;
   try {
-    const user = User.findOne({ email });
+    const user = await User.findOne({ email });
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
-    const isMatched = await bcrypt.compare(user.password, password);
+    const isMatched = await bcrypt.compare(password, user.password);
     if (!isMatched) {
       return res.status(401).json({ error: "Wrong password" });
     }
@@ -109,3 +109,5 @@ export const getUsers = async (req, res) => {
       .json({ error: "Getting users failed", details: error.message });
   }
 };
+
+// "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODdlMmNiODZhMWM2MjZhOWFkMGZkMDUiLCJyb2xlIjoidXNlciIsImlhdCI6MTc1MzA5OTQ0OH0.gF94DUITLy1kGYycJ0aR5O5OhErjDnwaEmHz9e_kzPU"

@@ -4,9 +4,10 @@ import CheckAuth from "./components/checkAuth";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Tickets from "./pages/Tickets";
 import TicketDetailsPage from "./pages/Ticket";
-import Login from "./pages/login";
-import Signup from "./pages/signup";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 import Admin from "./pages/Admin";
+import './index.css'; 
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>

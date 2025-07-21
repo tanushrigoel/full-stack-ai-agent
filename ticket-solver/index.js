@@ -8,6 +8,7 @@ import { inngest } from "./inngest/client.js";
 import { onUserSignup } from "./inngest/functions/on-signup.js";
 import { onTicketCreate } from "./inngest/functions/on-ticket-create.js";
 import dotenv from "dotenv";
+import connectDB from "./utils/connectDb.js";
 dotenv.config();
 
 const app = express();
@@ -18,14 +19,19 @@ app.use(
   "/api/inngest",
   serve({ client: inngest, functions: [onUserSignup, onTicketCreate] })
 );
-app.use(cors());
+app.use(
+  cors({
+    origin: "*", // or "*" for testing
+    credentials: true,
+  })
+);
 
-// console.log(process.env.MONGODB_URL);
 app.use("/api/auth", userRoutes);
 
 app.use("/api/tickets", ticketRoutes);
-mongoose
-  .connect(process.env.MONGODB_URL)
+// mongoose
+//   .connect(process.env.MONGODB_URL)
+connectDB()
   .then(() => {
     console.log("MongoDB connected ✔️");
     app.listen(3000, () => {
@@ -39,4 +45,3 @@ app.post("/", (req, res) => {
   console.log("received the request");
   res.send("Request received successfully!");
 });
-

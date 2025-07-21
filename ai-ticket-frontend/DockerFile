@@ -1,18 +1,24 @@
-# Use Node.js base image
-FROM node:18
+# Use a lightweight Node.js image
+FROM node:18-alpine
 
-# Set working directory in container
+# Set working directory
 WORKDIR /app
 
-# Copy package.json and install dependencies
-COPY package*.json ./
+# Install dependencies
+COPY package.json package-lock.json ./
 RUN npm install
 
-# Copy rest of the code
+# Copy the rest of your app
 COPY . .
 
-# Expose app port
+# Build the Vite project (output goes to /dist)
+RUN npm run build
+
+# Install `serve` to serve the static files
+RUN npm install -g serve
+
+# Expose the port Vite production build will be served on
 EXPOSE 3000
 
-# Start the server
-CMD ["npm", "start"]
+# Serve the dist folder
+CMD ["serve", "-s", "dist", "-l", "3000"]
