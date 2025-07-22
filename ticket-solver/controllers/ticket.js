@@ -3,7 +3,7 @@ import Ticket from "../models/ticket.js";
 
 export const createTicket = async (req, res) => {
   try {
-    const { title, description } = req.body();
+    const { title, description } = req.body;
     if (!title || !description) {
       return res
         .status(400)
