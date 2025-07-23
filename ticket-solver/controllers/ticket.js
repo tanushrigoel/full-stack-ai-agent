@@ -39,7 +39,7 @@ export const getTickets = async (req, res) => {
     const user = req.user;
     let tickets = [];
     if (user.role !== "user") {
-      tickets = Ticket.find({})
+      tickets = await Ticket.find({})
         .populate("assignedTo", ["email", "_id"])
         .sort({ createdAt: -1 });
     } else {
@@ -52,7 +52,7 @@ export const getTickets = async (req, res) => {
       .json({ message: "Ticket fetched successfully", tickets });
   } catch (error) {
     console.error("❌ Error while fetching the ticket", error.message);
-    return res.status(500).json({ error });
+    return res.status(500).json({ error: error.message });
   }
 };
 

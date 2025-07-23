@@ -11,12 +11,14 @@ function CheckAuth({ children, protectedRoute }) {
     if (protectedRoute) {
       if (!token) {
         navigate("/login");
+        setLoading(false);
       } else {
         setLoading(false);
       }
     } else {
       if (token) {
         navigate("/");
+        setLoading(false);
       } else {
         setLoading(false);
       }
